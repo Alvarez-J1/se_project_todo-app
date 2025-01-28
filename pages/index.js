@@ -31,6 +31,18 @@ addTodoCloseBtn.addEventListener("click", () => {
   closeModal(addTodoPopup);
 });
 
+addTodoCloseBtn.addEventListener("keydown", (evt) => {
+  if (evt.key === "Enter") {
+    closeModal(addTodoPopup);
+  }
+});
+
+document.addEventListener("keydown", (evt) => {
+  if (evt.key === "Escape") {
+    closeModal(addTodoPopup);
+  }
+});
+
 addTodoForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
   const name = evt.target.name.value;
