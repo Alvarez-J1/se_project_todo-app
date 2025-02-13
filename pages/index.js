@@ -3,11 +3,18 @@ console.log(uuidv4());
 import { initialTodos, validationConfig } from "../utils/costants.js";
 import Todo from "../components/Todo.js";
 import FormValidator from "../components/FormValidator.js";
+import Section from "../components/Section.js";
+import PopupWithForm from "../components/popupWithForm.js";
 const addTodoButton = document.querySelector(".button_action_add");
-const addTodoPopup = document.querySelector("#add-todo-popup");
-const addTodoForm = addTodoPopup.querySelector(".popup__form");
-const addTodoCloseBtn = addTodoPopup.querySelector(".popup__close");
+const addTodoPopupEl = document.querySelector("#add-todo-popup");
+const addTodoForm = document.forms["add-todo-form"];
+const addTodoCloseBtn = addTodoPopupEl.querySelector(".popup__close");
 const todosList = document.querySelector(".todos__list");
+
+const addTodoPopup = new PopupWithForm({
+  popupSelector: "#add-todo-popup",
+  handleFormSubmit: () => {},
+});
 
 const openModal = (modal) => {
   modal.classList.add("popup_visible");
@@ -23,23 +30,33 @@ const generateTodo = (data) => {
   return todoElement;
 };
 
+const section = new Section({
+  items: initialTodos,
+  renderer: (item) => {
+    const todo = generateTodo(item);
+    section.addItem(todo);
+  },
+  containerSelector: ".todos__list",
+});
+section.renderItems();
+
 addTodoButton.addEventListener("click", () => {
-  openModal(addTodoPopup);
+  openModal(addTodoPopupEl);
 });
 
 addTodoCloseBtn.addEventListener("click", () => {
-  closeModal(addTodoPopup);
+  closeModal(addTodoPopupEl);
 });
 
-addTodoCloseBtn.addEventListener("keydown", (evt) => {
+addTodoPopupEl.addEventListener("keydown", (evt) => {
   if (evt.key === "Enter") {
-    closeModal(addTodoPopup);
+    closeModal(addTodoPopupEl);
   }
 });
 
 document.addEventListener("keydown", (evt) => {
   if (evt.key === "Escape") {
-    closeModal(addTodoPopup);
+    closeModal(addTodoPopupEl);
   }
 });
 
@@ -54,14 +71,8 @@ addTodoForm.addEventListener("submit", (evt) => {
 
   const id = uuidv4();
   const values = { name, date, id };
-  const todo = generateTodo(values);
-  todosList.append(todo);
-  closeModal(addTodoPopup);
-});
-
-initialTodos.forEach((item) => {
-  const todo = generateTodo(item);
-  todosList.append(todo);
+  section._renderer(values);
+  closeModal(addTodoPopupEl);
 });
 
 const newTodoValidator = new FormValidator(validationConfig, addTodoForm);

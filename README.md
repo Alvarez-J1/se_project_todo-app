@@ -15,8 +15,6 @@ It provides functionality to:
 
 ## Technology
 
-Give a description of the technologies and techniques used. Pictures, GIFs, or screenshots that detail the project features are recommended.
-
 Technologies:
 
 1. HTML & CSS:
