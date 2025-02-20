@@ -2,7 +2,7 @@ export default class Popup {
   constructor({ popupSelector }) {
     this._popupElement = document.querySelector(popupSelector);
     this._popupCloseBtn = this._popupElement.querySelector(".popup__close");
-    this._handleEscapeClose = this._handleEscapeClose.bind(this); // ✅ Bind 'this'
+    this._handleEscapeClose = this._handleEscapeClose.bind(this); //
   }
 
   _handleEscapeClose(evt) {
@@ -27,9 +27,6 @@ export default class Popup {
         evt.target.classList.contains("popup__close") ||
         evt.target.classList.contains("popup")
       ) {
-        this.close();
-      }
-      if (evt.key === "Enter") {
         this.close();
       }
     });
